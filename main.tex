@@ -1,0 +1,76 @@
+\documentclass[12pt]{article}
+
+% -- Packages --
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{subfig}
+\usepackage{lipsum}
+\usepackage{color}
+% --
+
+% NO TOUCHY
+%------------------------------------------------------------------
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+\pagestyle{fancy}
+\fancyhf{}
+\cfoot{\thepage}
+%------------------------------------------------------------------
+
+
+\begin{document}
+
+% -- TITLE PAGE --
+\begin{titlepage}
+	\centering
+    \vspace*{0.5 cm}
+    \includegraphics[scale = 0.5]{images/unibas_logo.jpeg}\\[1.0 cm]
+    \textsc{\LARGE  The 2016 US elections and suicide rates in the US}\\[2.0 cm]
+    \textsc{ COMPUTER SCIENCE DEPARTMENT}\\[0.2 cm]
+    \textsc{DATABASES: P3 Analysis and visualisation}\\[0.2cm]
+	\textsc{\Large FS 2019}\\[0.5 cm]
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+
+	\begin{minipage}{0.4\textwidth}
+
+			\begin{flushright}
+			\emph{STUDENT IDS :} \\
+				Rik De Graaf {\color{red}12345678}\linebreak
+			Travis Rivera Petit 15-117-427\linebreak
+		\end{flushright}
+	\end{minipage}\\[2 cm]
+
+
+	\vfill
+
+\end{titlepage}
+% --
+
+%\tableofcontents
+%\pagebreak
+
+
+\section{INTRODUCTION}
+\input{introduction}
+
+\section{SOURCE MATERIAL}
+\input{source_material}
+
+\section{INTEGRATION}
+\input{integration}
+
+\section{DATA ANALYSIS}
+\input{analysis}
+
+\section{INTERPRETATION}
+\input{interpretation}
+
+\section{CONCLUSION}
+\input{conclusion}
+
+
+%\bibliographystyle{plain}
+%\bibliography{biblist}
+
+\end{document}
