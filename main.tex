@@ -8,6 +8,9 @@
 \usepackage{subfig}
 \usepackage{lipsum}
 \usepackage{color}
+\usepackage{url}
+
+\usepackage[colorlinks]{hyperref}
 % --
 
 % NO TOUCHY
@@ -25,7 +28,7 @@
 \begin{titlepage}
 	\centering
     \vspace*{0.5 cm}
-    \includegraphics[scale = 0.5]{images/unibas_logo.jpeg}\\[1.0 cm]
+    \includegraphics[scale = 0.5]{unibas_logo.jpeg}\\[1.0 cm]
     \textsc{\LARGE  The 2016 US elections and suicide rates in the US}\\[2.0 cm]
     \textsc{ COMPUTER SCIENCE DEPARTMENT}\\[0.2 cm]
 	\textsc{DATABASES - \textbf{P3}: Analysis and visualisation}\\[0.2cm]
@@ -53,24 +56,30 @@
 
 \section{INTRODUCTION}
 \input{introduction}
+%\include{introduction}
 
 \section{SOURCE MATERIAL}
 \input{source_material}
+%\include{source_material}
 
 \section{INTEGRATION}
 \input{integration}
+%\include{integration}
 
 \section{DATA ANALYSIS}
 \input{analysis}
+%\include{analysis}
 
 \section{INTERPRETATION}
 \input{interpretation}
+%\include{interpretation}
 
 \section{CONCLUSION}
 \input{conclusion}
+%\include{conclusion}
 
 
-%\bibliographystyle{plain}
-%\bibliography{biblist}
-
+\bibliographystyle{ieeetr}
+\bibliography{references}
+%\printbibliography
 \end{document}
