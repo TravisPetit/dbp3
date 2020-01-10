@@ -1,0 +1,56 @@
+\section{Source material}
+
+The choice of sources is paramount when it comes to doing projects
+such as this one. Our datasets are:
+\begin{enumerate}
+	\item \textbf{A US county level presidatial resul for the
+		years 2012 to 2016}
+		{\color{red}(add citaton)}
+		The reason for which we use the outcomes
+		of the 2012 and 2016 elections instead of just the latter
+		is that eventrs from 2012 onwards are used as a
+		control group, i.e. we \ldots
+
+	\item \textbf{The GDELT2 events dataset}
+		GDELT, which stands for Global Database of Events, Language
+		and Tone is a database which monitors and manages
+		political episodes gobally. It is one of the largest
+		open souce indexes of global society {\color{red} citaton}
+		and it keeps track of ocurrances
+		such as diplomatic summits, wars, news, protests et
+		cetera as well as the relationships between them.
+
+
+		The GDELT 2 dataset is consists of three parts: an
+		event dataset, a mentions dataset and a global knowledge
+		graph. For this project work with the events dataset
+		which is itself divided into one hundred and sixty three
+		thousand csv files separated by timestamps which cover
+		global events ranging from the year 2015 onwards.
+		Because of the specifications of the project, we decided
+		to work with the eighty nine thousand of them, namely
+		those in the interval starting from January of 2015 to
+		September of 2017, nine months after Donald Trump
+		was declared president of the United States.
+
+	\item \textbf{Centers for disease and control prevention's
+		suicide rate per US county reports}
+
+\end{enumerate}
+All of the sources combined amount to about 85 GB of data.
+
+\textbf{Note}: For the P1 milestone we presented a slightly
+different version of sources: we sated that we were going to use
+the GDELT1 (as opposed to the GDELT2) events dataset.
+This was because we felt that since both of thsese sources have
+more data than we need, going for GDELT2 would be an overkill,
+however we realized later on that unlike for GDELT1,
+the GDELT2 csv files contain a record called ADM2Code,
+which can be used to link counties and events together
+(which is called for, details on this are covered
+on the INTEGRATION section).
+This change rocketed our file sizes from 23 GiB to more than
+80 GiB. Because of this, we decided to drop another source:
+The Crowd Counting Consortium's protest activity dataset, since
+the information found thre is redundant now that we have
+GDELT2.
