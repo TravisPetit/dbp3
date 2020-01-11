@@ -1,2 +1,11 @@
 \section{Lessons Learned}
-Describe your lessons learned.
+The main lesson we learned during this project is not to underestimate how time consuming working with data is.
+Both during the integration and the analysis phase, we were surprised by how long certain operations took and had to cut some corners.
+The take away is not only to start earlier, but also to use better tools and put more thought into optimization up front when dealing with large datasets.
+During the integration phase, we used python and looped through every single record individually and inserted them into the database one by one.
+We believed that this would be the easiest way for us to go about it and that it would be sufficiently efficient since we still had quite a few days left before the deadline.
+As it turned out, we very nearly didn't get done in time. If we had taken the time to use a more performant language and had put the work in to send batch updates to the SQL server, we likely could have cut down our execution time by a few orders of magnitude.
+
+The problem during the analysis phase, which is laid out in the Methods section, was not so much a matter of us consciously making a decision that proved to be inefficient.
+Rather, it was the result of an oversight we made when defining our database.
+If we had forseen the need for the index on the dateoccurred field, the query that didn't finish in time for our report likely would not have taken more tha a few hours at most.
