@@ -1,0 +1,57 @@
+\section{Analysis}
+
+The main focus of our project was finding out whether the election of Donald Trump had an impact on suicide rates in the United States of America.
+To that end, the first diagramm we created was simply a bar chart with the total amount of suicides in the United States of America per year for the years we had data on: 1999 through 2017.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=0.85\textwidth]{g9-suicides_per_year}
+\caption{Total yearly suicides in the US from 1999 to 2017.}
+\label{fig:yearly_suicides}
+\end{figure}
+
+This diagramm can be found in \Cref{fig:yearly_suicides}. As can be plainly seen, there was a marked uptick in suicides between 2016 and 2017.
+Since Donald Trump was elected president near the end of 2016 on the 8th of November and assumed the presidency in the beginning of 2017 on the 20th of January, this noticeable jump provides us with some tentative evidence in support of our hypothesis.
+\par
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=0.85\textwidth]{g9-suicides-diff-votes-diff}
+\caption{Difference in age adjusted suicide rate per US county between 2016 and 2017 plotted against the gain by the republican party over the democratic party from 2012 to 2016. Counties that flipped from democratic to republican are highlighted in red, those where the reverse happened are marked blue.}
+\label{fig:suicides-diff-votes-diff}
+\end{figure}
+
+However, the diagramm in \Cref{fig:suicides-diff-votes-diff} shows that there was no notable correlation on a county level between how much better Trump performed than Mitt Romney did in 2012 and the increase in suicides in said county.
+Even looking at the counties which flipped during the 2016 election yields no discernable correlation.
+What can be made out is that, in most counties, Trump did better than Romney did in 2012 and suicide rates rose.
+These findings are not in the least bit surprising, given that Trump won the election and Romney did not and that the total amount of suicides rose markedly, but it's good to see that our data reflects reality and is consistent.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=0.85\textwidth]{g9-suicides-votes-diff}
+\caption{Age adjusted suicide rate per US county in 2016 plotted against the gain by the republican party over the democratic party from 2012 to 2016. Counties that flipped from democratic to republican are highlighted in red, those where the reverse happened are marked blue.}
+\label{fig:suicides-votes-diff}
+\end{figure}
+
+\par
+\Cref{fig:suicides-votes-diff} shows a similar picture, but uses the age adjusted suicide rate in 2016 instead of the increase between 2016 and 2017.
+In this diagramm we see a noticeable, if slight, correlation.
+It seems like Trump did unexpectedly well compared to establishment republican candidate Romney in counties with high suicide rates.
+\cite{goldman2018} came to a similar finding when they examined the relation between life expectancy and republican gains in the 2016 election.
+This is an interesting finding in its own right, but does not support our hypothesis.
+It is however worth noting, that it in no way explains the rise in suicides between 2016 and 2017.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=0.85\textwidth]{g9-suicides-votes}
+\caption{Age adjusted suicide rate per US county in 2017 plotted against the percetage point difference between the GOP and the DNC in the 2016 presidential election.}
+\label{fig:suicides-votes}
+\end{figure}
+
+\par
+\Cref{fig:suicides-votes} contains a single frame of an animated scatter plot showing both the change in age adjusted suicide rate and the election results dynamically.
+The animation did not reveal any unexpected or noteworthy insights into the data.
+This still image, showing the election results in 2016 plotted against the suicide rate in 2017 does show, however, that there is a clear correlation between counties with a large portion of republican voters and high suicide rates.
+The picture looks virtually the same when comparing the suicide rates in 2016 and the election results from 2012.
+This tells us that Trumps success in counties with high suicide rates does not necessarily set him apart as a candidate.
+It also suggests that the increased suicide rate since 2012 might explain some of his success, and not the other way around.
