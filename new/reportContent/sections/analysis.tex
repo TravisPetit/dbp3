@@ -123,7 +123,8 @@ SELECT
                 a.id = e.actionid
         WHERE
             city.countygid = county.gid 
-            AND EXTRACT(year FROM e.dateoccurred) = sr.year
+            AND EXTRACT(year FROM e.dateoccurred) 
+                = sr.year
     )
 FROM
     county
@@ -135,4 +136,8 @@ WHERE
 \end{lstlisting}
 
 Unfortunately, this query proved entirely too time consuming and was not finished running by the time the deadline of this report was approaching.
-
+After the query had been running for several minutes, we took to using postgreSQL's EXPLAIN and ANALYZE functionality to look at the execution plan of the query and estimate how long it might take to finish.
+The figure we can up with comparing the estimated cost by postgreSQL and comparing the cost of smaller queries to their actual runtime was about 250 hours.
+The culprit is more than likely a missing index on the dateoccurred field of the Event relation.
+Because of this missing index, the execution plan involves performing a sequential scan of our biggest table with hundreds of millions of entries inside a nested loop.
+We considered adding this missing index or possibly extracting the year into its own column and adding an index on that instead, but that would take too much time too.
