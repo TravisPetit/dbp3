@@ -55,3 +55,84 @@ This still image, showing the election results in 2016 plotted against the suici
 The picture looks virtually the same when comparing the suicide rates in 2016 and the election results from 2012.
 This tells us that Trumps success in counties with high suicide rates does not necessarily set him apart as a candidate.
 It also suggests that the increased suicide rate since 2012 might explain some of his success, and not the other way around.
+
+\subsection{Methods}
+
+We generated all diagramms by performing SQL queries on our database and used python with matplotlib do visualize the data.
+The data for \Cref{fig:yearly_suicides} was selected using the following straightforward query:
+
+\begin{lstlisting}[language=SQL]
+SELECT
+    year, SUM(deaths)
+FROM 
+    suiciderate
+GROUP BY
+    year 
+ORDER BY
+    year
+;
+\end{lstlisting}
+
+\Cref{fig:suicides-diff-votes-diff}, \Cref{fig:suicides-votes-diff}, \Cref{fig:suicides-votes} were all created using the results of the same query:
+
+\begin{lstlisting}[language=SQL]
+SELECT
+    county.name, county.state_name,
+    100 * cast(e2012.votesgop - e2012.votesdem as decimal)
+        /(e2012.votesgop + e2012.votesdem + e2012.votesother) 
+        AS perdiff2012,
+    100 * cast(e2016.votesgop - e2016.votesdem as decimal)
+        /(e2016.votesgop + e2016.votesdem + e2016.votesother) 
+        AS perdiff2016,
+    s2016.ageadjustedrate AS rate2016,
+    s2017.ageadjustedrate AS rate2017
+FROM
+    county
+    JOIN electionresult e2012 ON 
+        e2012.countygeoid = county.gid AND e2012.year = 2012
+    JOIN electionresult e2016 ON 
+        e2016.countygeoid = county.gid AND e2016.year = 2016
+    JOIN suiciderate s2016 ON 
+        s2016.countygeoid = county.gid AND s2016.year = 2016
+    JOIN suiciderate s2017 ON 
+        s2017.countygeoid = county.gid AND s2017.year = 2017
+WHERE
+    s2016.ageadjustedrate IS NOT NULL 
+    AND s2017.ageadjustedrate IS NOT NULL
+;
+\end{lstlisting}
+
+This query selects every US county for which we have associated suicide rate data and lection data for both 2012 and 2016.
+Some counties had too few suicides or were perhaps not surveyed, so our source did not report an age adjusted suicide rate for them.
+Using the results of this query, we could plot any combination of the election results in 2012, those in 2016 or the difference between the two and the age adjusted suicide rate in 2016, 2017 or the difference between the two.
+In order to make the animation, we interpolated between the scatter plot of the 2012 election results and 2016 suicide rates and that of 2016 and 2016 repectively.
+\par
+We also ran a similar query to find out to what degree the data in GDELT was able to explain the suicide rates:
+
+\begin{lstlisting}[language=SQL]
+SELECT
+    county.name, county.state_name, ageadjustedrate, (
+        SELECT
+            AVG(goldsteinScale)
+        FROM
+            city
+            JOIN "Event" e ON 
+                e.actor2geoid = city.geoid 
+                OR e.geoid = city.geoid
+            JOIN "Action" a ON 
+                a.id = e.actionid
+        WHERE
+            city.countygid = county.gid 
+            AND EXTRACT(year FROM e.dateoccurred) = sr.year
+    )
+FROM
+    county
+    JOIN suiciderate sr ON 
+        sr.countygeoid = county.gid
+WHERE
+    sr.ageadjustedrate IS NOT NULL
+;
+\end{lstlisting}
+
+Unfortunately, this query proved entirely too time consuming and was not finished running by the time the deadline of this report was approaching.
+
