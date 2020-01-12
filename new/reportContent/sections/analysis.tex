@@ -44,7 +44,7 @@ It is however worth noting, that it in no way explains the rise in suicides betw
 \begin{figure}[tb]
 \centering
 \includegraphics[width=0.85\textwidth]{g9-suicides-votes}
-\caption{Age adjusted suicide rate per US county in 2017 plotted against the percetage point difference between the GOP and the DNC in the 2016 presidential election.}
+\caption{Age adjusted suicide rate per US county in 2017 plotted against the percentage point difference between the GOP and the DNC in the 2016 presidential election.}
 \label{fig:suicides-votes}
 \end{figure}
 
@@ -55,6 +55,18 @@ This still image, showing the election results in 2016 plotted against the suici
 The picture looks virtually the same when comparing the suicide rates in 2016 and the election results from 2012.
 This tells us that Trumps success in counties with high suicide rates does not necessarily set him apart as a candidate.
 It also suggests that the increased suicide rate since 2012 might explain some of his success, and not the other way around.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=0.85\textwidth]{g9-suicides-gdelt}
+\caption{Age adjusted yearly suicide rate per US county plotted against the average goldstein scale of all events which took place according to GDELT.}
+\label{fig:suicides-gdelt}
+\end{figure}
+
+\par
+Finally, \Cref{fig:suicides-gdelt} shows the suicide rates for each county for each year (if data was available) in relation to the average goldstein scale of all events which took place in the county during that year.
+A positive goldstein scale is supposed to signify that the event is expected to have a positive effect, a negative value therefor represents bad news.
+As can be plainly seen, there is very little correlation.
 
 \subsection{Methods}
 
@@ -107,7 +119,7 @@ Some counties had too few suicides or were perhaps not surveyed, so our source d
 Using the results of this query, we could plot any combination of the election results in 2012, those in 2016 or the difference between the two and the age adjusted suicide rate in 2016, 2017 or the difference between the two.
 In order to make the animation, we interpolated between the scatter plot of the 2012 election results and 2016 suicide rates and that of 2016 and 2016 repectively.
 \par
-We also ran a similar query to find out to what degree the data in GDELT was able to explain the suicide rates:
+In order to abtain the data for \Cref{fig:suicides-gdelt} we ran a similar query to find out to what degree the data in GDELT was able to explain the suicide rates:
 
 \begin{lstlisting}[language=SQL]
 SELECT
@@ -137,7 +149,42 @@ WHERE
 
 Unfortunately, this query proved entirely too time consuming and was not finished running by the time the deadline of this report was approaching.
 After the query had been running for several minutes, we took to using postgreSQL's EXPLAIN and ANALYZE functionality to look at the execution plan of the query and estimate how long it might take to finish.
-The figure we can up with comparing the estimated cost by postgreSQL and comparing the cost of smaller queries to their actual runtime was about 250 hours.
-The culprit is more than likely a missing index on the dateoccurred field of the Event relation.
-Because of this missing index, the execution plan involves performing a sequential scan of our biggest table with hundreds of millions of entries inside a nested loop.
-We considered adding this missing index or possibly extracting the year into its own column and adding an index on that instead, but that would take too much time too.
+The figure we came up with comparing the estimated cost by postgreSQL and comparing the cost of smaller queries to their actual runtime was about 250 hours.
+We assumed culprit was a missing index on the dateoccurred field of the Event relation.
+Because of this missing index, the execution plan involved performing a sequential scan of our biggest table with hundreds of millions of entries inside a nested loop.
+We added this missing index but the execution plan remained the same.
+As a second measure, we added a year field to the Event table to avoid having to extract the year from the dateocccurred field in the query and added an index on that.
+This got rid of the sequential scan and replaced it with a bitmap index scan and resulted in an estimated speedup by a factor of two.
+Since our best estimation was the this would still take over 100 hours to execute, we tried one last approach to speed up te query.
+We rewrote it to make sure the inner select only needs to be executed one time:
+
+\begin{lstlisting}[language=SQL]
+SELECT
+    sub.avgGoldstein, ageadjustedrate
+FROM
+    (
+        SELECT
+            AVG(goldsteinScale) AS avgGoldstein,
+            county.gid, e.year
+        FROM
+            city
+            JOIN "Event" e ON 
+                e.actor2geoid = city.geoid 
+                OR e.geoid = city.geoid
+            JOIN "Action" a ON 
+                a.id = e.actionid
+            JOIN county ON
+                city.countygid = county.gid
+        GROUP BY             
+            e.year, county.gid
+    ) sub
+    JOIN suiciderate sr ON 
+        sr.countygeoid = sub.gid
+        AND sub.year = sr.year
+WHERE
+    sr.ageadjustedrate IS NOT NULL
+;
+\end{lstlisting}
+
+This resulted in a speedup by an estimated factor of around 100.
+The query finished in just a few minutes.

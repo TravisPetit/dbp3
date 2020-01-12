@@ -6,9 +6,10 @@ During the integration phase, we used python and looped through every single rec
 We believed that this would be the easiest way for us to go about it and that it would be sufficiently efficient since we still had quite a few days left before the deadline.
 As it turned out, we very nearly didn't get done in time. If we had taken the time to use a more performant language and had put the work in to send batch updates to the SQL server, we likely could have cut down our execution time by a few orders of magnitude.
 
-The problem during the analysis phase, which is laid out in the Methods section, was not so much a matter of us consciously making a decision that proved to be inefficient.
-Rather, it was the result of an oversight we made when defining our database.
-If we had forseen the need for the index on the dateoccurred field, the query that didn't finish in time for our report likely would not have taken more tha a few hours at most.
+The problem we encountered during the analysis phase, which is laid out in the Methods section, showed us again how vital efficiency is when working with data.
+We wasted a considerable amount of time waiting for a needlessly inefficient query to finish before realizing that adding an index structure and rewriting the query slightly would make it orders of magnitude faster.
+On the other hand, our issues during the integration phase did make us more open to the idea that optimization is important and caused us to investigate relatively quickly.
+As a result we managed to get the desired chart ready in time for the deadline.
 
 %Moving on, in terms of the data visalization, probably the most interesting fact we have seen is the margin by which the number of
 %suicides have increased in the United States in the year span from 1999 to 2017 as showin in \ref{fig:yearly_suicides}.
